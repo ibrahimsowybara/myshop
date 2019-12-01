@@ -1,0 +1,14 @@
+ {% extends 'index.html.twig' %} 
+ 
+ {% block content_marques_categorie  %}
+
+    {% for marque in marques|sort %}
+    <div class="contenu_acteur mt-5"> 
+        <a href="produits/marques/{{marque.id}}">
+            <img clas="col-lg-4" src="{{marque.img_marque}}" alt="img-produit">
+        </a>
+    </div>
+
+    {% endfor %}
+ 
+ {% endblock %}

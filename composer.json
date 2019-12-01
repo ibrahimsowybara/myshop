@@ -1,0 +1,12 @@
+{
+    "name": "ibrahimsow/myshop",
+    "authors": [
+        {
+            "name": "Ibrahims Sow",
+            "email": "ibrahimsow.sow@gmail.com"
+        }
+    ],
+    "require": {
+        "twig/twig": "^2.0"
+    }
+}

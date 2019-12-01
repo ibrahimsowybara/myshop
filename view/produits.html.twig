@@ -1,0 +1,35 @@
+{% extends 'index.html.twig' %} 
+
+
+{% block title %} Produits {%  endblock %}
+{% block content %}
+
+    {% for produit in produits %}
+   
+        <div id="fiche" class="contenu d-flex flex-column">
+            <div class="row">
+                <div class="image col-12 col-sm-12 col-md-12 col-lg-4" style="background: url({{produit.image_produit}}); background-size: cover; background-repeat: no-repeat;
+                    background-position: center;
+                    height: 500px; margin:0;">
+                </div>
+                <div class="col-12 col-sm-12 col-md-12 col-lg-8">
+                    <div>
+                        <h2>{{produit.nom}}</h2>
+                    </div>
+                    <div>
+                        <h3>{{produit.marques}}</h3>
+                    </div>
+                    <div>
+                        <p>Decription détaillé : {{produit.description}}</p>
+                    </div>
+                    <div>
+                        <p>Prix {{produit.prix}} €</p>  
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    {% endfor %}
+  
+
+{%  endblock %}
