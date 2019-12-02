@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 4.9.1
+-- version 4.8.4
 -- https://www.phpmyadmin.net/
 --
--- Hôte : localhost
--- Généré le :  lun. 02 déc. 2019 à 18:22
--- Version du serveur :  10.4.8-MariaDB
--- Version de PHP :  7.3.11
+-- Hôte : 127.0.0.1:3306
+-- Généré le :  lun. 02 déc. 2019 à 19:21
+-- Version du serveur :  5.7.24
+-- Version de PHP :  7.3.1
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET AUTOCOMMIT = 0;
@@ -21,6 +21,8 @@ SET time_zone = "+00:00";
 --
 -- Base de données :  `my_shop`
 --
+CREATE DATABASE IF NOT EXISTS `my_shop` DEFAULT CHARACTER SET latin1 COLLATE latin1_swedish_ci;
+USE `my_shop`;
 
 -- --------------------------------------------------------
 
@@ -28,11 +30,18 @@ SET time_zone = "+00:00";
 -- Structure de la table `categories`
 --
 
-CREATE TABLE `categories` (
-  `id` int(11) NOT NULL,
-  `categorie` varchar(255) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+DROP TABLE IF EXISTS `categories`;
+CREATE TABLE IF NOT EXISTS `categories` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `categorie` varchar(255) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4;
 
+--
+-- Tronquer la table avant d'insérer `categories`
+--
+
+TRUNCATE TABLE `categories`;
 --
 -- Déchargement des données de la table `categories`
 --
@@ -47,11 +56,18 @@ INSERT INTO `categories` (`id`, `categorie`) VALUES
 -- Structure de la table `genre`
 --
 
-CREATE TABLE `genre` (
-  `id` int(11) NOT NULL,
-  `type` varchar(255) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+DROP TABLE IF EXISTS `genre`;
+CREATE TABLE IF NOT EXISTS `genre` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `type` varchar(255) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4;
 
+--
+-- Tronquer la table avant d'insérer `genre`
+--
+
+TRUNCATE TABLE `genre`;
 --
 -- Déchargement des données de la table `genre`
 --
@@ -66,12 +82,19 @@ INSERT INTO `genre` (`id`, `type`) VALUES
 -- Structure de la table `marques`
 --
 
-CREATE TABLE `marques` (
-  `id` int(11) NOT NULL,
+DROP TABLE IF EXISTS `marques`;
+CREATE TABLE IF NOT EXISTS `marques` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `marque` varchar(255) NOT NULL,
-  `img_marque` varchar(255) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+  `img_marque` varchar(255) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4;
 
+--
+-- Tronquer la table avant d'insérer `marques`
+--
+
+TRUNCATE TABLE `marques`;
 --
 -- Déchargement des données de la table `marques`
 --
@@ -87,14 +110,21 @@ INSERT INTO `marques` (`id`, `marque`, `img_marque`) VALUES
 -- Structure de la table `produits`
 --
 
-CREATE TABLE `produits` (
-  `id` int(11) NOT NULL,
+DROP TABLE IF EXISTS `produits`;
+CREATE TABLE IF NOT EXISTS `produits` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `nom` varchar(255) NOT NULL,
   `description` text NOT NULL,
   `image_produit` varchar(255) NOT NULL,
-  `prix` decimal(10,3) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+  `prix` decimal(10,3) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4;
 
+--
+-- Tronquer la table avant d'insérer `produits`
+--
+
+TRUNCATE TABLE `produits`;
 --
 -- Déchargement des données de la table `produits`
 --
@@ -110,11 +140,19 @@ INSERT INTO `produits` (`id`, `nom`, `description`, `image_produit`, `prix`) VAL
 -- Structure de la table `produit_categorie`
 --
 
-CREATE TABLE `produit_categorie` (
+DROP TABLE IF EXISTS `produit_categorie`;
+CREATE TABLE IF NOT EXISTS `produit_categorie` (
   `produit` int(11) NOT NULL,
-  `categorie` int(11) NOT NULL
+  `categorie` int(11) NOT NULL,
+  PRIMARY KEY (`produit`,`categorie`),
+  KEY `FK_PRODUIT_CATEGORIE_CATEGORIE` (`categorie`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
+--
+-- Tronquer la table avant d'insérer `produit_categorie`
+--
+
+TRUNCATE TABLE `produit_categorie`;
 --
 -- Déchargement des données de la table `produit_categorie`
 --
@@ -122,11 +160,7 @@ CREATE TABLE `produit_categorie` (
 INSERT INTO `produit_categorie` (`produit`, `categorie`) VALUES
 (1, 1),
 (2, 1),
-(3, 1),
-(4, 2),
-(5, 2),
-(6, 2),
-(7, 1);
+(3, 1);
 
 -- --------------------------------------------------------
 
@@ -134,11 +168,19 @@ INSERT INTO `produit_categorie` (`produit`, `categorie`) VALUES
 -- Structure de la table `produit_genre`
 --
 
-CREATE TABLE `produit_genre` (
+DROP TABLE IF EXISTS `produit_genre`;
+CREATE TABLE IF NOT EXISTS `produit_genre` (
   `produit` int(11) NOT NULL,
-  `genre` int(11) NOT NULL
+  `genre` int(11) NOT NULL,
+  PRIMARY KEY (`produit`,`genre`),
+  KEY `FK_PRODUIT_GENRE_MARQUES` (`genre`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
+--
+-- Tronquer la table avant d'insérer `produit_genre`
+--
+
+TRUNCATE TABLE `produit_genre`;
 --
 -- Déchargement des données de la table `produit_genre`
 --
@@ -146,11 +188,7 @@ CREATE TABLE `produit_genre` (
 INSERT INTO `produit_genre` (`produit`, `genre`) VALUES
 (1, 1),
 (2, 1),
-(3, 1),
-(4, 2),
-(5, 2),
-(6, 2),
-(7, 1);
+(3, 2);
 
 -- --------------------------------------------------------
 
@@ -158,79 +196,52 @@ INSERT INTO `produit_genre` (`produit`, `genre`) VALUES
 -- Structure de la table `produit_marque`
 --
 
-CREATE TABLE `produit_marque` (
+DROP TABLE IF EXISTS `produit_marque`;
+CREATE TABLE IF NOT EXISTS `produit_marque` (
   `produit` int(11) NOT NULL,
-  `marque` int(11) NOT NULL
+  `marque` int(11) NOT NULL,
+  PRIMARY KEY (`produit`,`marque`),
+  KEY `FK_PRODUITS_MARQUES_MARQUES` (`marque`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
+--
+-- Tronquer la table avant d'insérer `produit_marque`
+--
+
+TRUNCATE TABLE `produit_marque`;
 --
 -- Déchargement des données de la table `produit_marque`
 --
 
 INSERT INTO `produit_marque` (`produit`, `marque`) VALUES
 (1, 1),
-(2, 3),
 (3, 2),
-(4, 1),
-(5, 3),
-(6, 2),
-(7, 3);
+(2, 3);
 
 --
--- Index pour les tables déchargées
+-- Contraintes pour les tables déchargées
 --
 
 --
--- Index pour la table `categories`
+-- Contraintes pour la table `produit_categorie`
 --
-ALTER TABLE `categories`
-  ADD PRIMARY KEY (`id`);
+ALTER TABLE `produit_categorie`
+  ADD CONSTRAINT `FK_PRODUIT_CATEGORIE_CATEGORIE` FOREIGN KEY (`categorie`) REFERENCES `categories` (`id`),
+  ADD CONSTRAINT `FK_PRODUIT_CATEGORIE_PRODUITS` FOREIGN KEY (`produit`) REFERENCES `produits` (`id`);
 
 --
--- Index pour la table `genre`
+-- Contraintes pour la table `produit_genre`
 --
-ALTER TABLE `genre`
-  ADD PRIMARY KEY (`id`);
+ALTER TABLE `produit_genre`
+  ADD CONSTRAINT `FK_PRODUIT_GENRE_MARQUES` FOREIGN KEY (`genre`) REFERENCES `genre` (`id`),
+  ADD CONSTRAINT `FK_PRODUIT_GENRE_PRODUITS` FOREIGN KEY (`produit`) REFERENCES `produits` (`id`);
 
 --
--- Index pour la table `marques`
+-- Contraintes pour la table `produit_marque`
 --
-ALTER TABLE `marques`
-  ADD PRIMARY KEY (`id`);
-
---
--- Index pour la table `produits`
---
-ALTER TABLE `produits`
-  ADD PRIMARY KEY (`id`);
-
---
--- AUTO_INCREMENT pour les tables déchargées
---
-
---
--- AUTO_INCREMENT pour la table `categories`
---
-ALTER TABLE `categories`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
-
---
--- AUTO_INCREMENT pour la table `genre`
---
-ALTER TABLE `genre`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
-
---
--- AUTO_INCREMENT pour la table `marques`
---
-ALTER TABLE `marques`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
-
---
--- AUTO_INCREMENT pour la table `produits`
---
-ALTER TABLE `produits`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+ALTER TABLE `produit_marque`
+  ADD CONSTRAINT `FK_PRODUITS_MARQUES_MARQUES` FOREIGN KEY (`marque`) REFERENCES `marques` (`id`),
+  ADD CONSTRAINT `FK_PRODUITS_MARQUES_PRODUITS` FOREIGN KEY (`produit`) REFERENCES `produits` (`id`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

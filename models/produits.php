@@ -23,36 +23,34 @@
         return $requete->fetchAll(PDO::FETCH_ASSOC);    
     }
 
-    function showFilmsByOneMarque($idmarques){
+    function getProductById($id) {
+
         global $basedonne;
 
-        $sql = "SELECT p.id, p.nom, p.description, p.image_produit, p.prix, 
-        (SELECT GROUP_CONCAT(DISTINCT g.type SEPARATOR ', ')
-                     FROM genre as g inner JOIN produit_genre as pg ON g.id = pg.genre 
-                     WHERE pg.produit = p.id ) AS genre,
-                     
-                     
-        (SELECT GROUP_CONCAT(DISTINCT c.categorie SEPARATOR ', ')
-               		 FROM categories as c inner JOIN produit_categorie as pc ON c.id = pc.categorie  
-                     WHERE pc.produit = p.id ) AS categories,
-                     
-        (SELECT GROUP_CONCAT(DISTINCT m.marque SEPARATOR ',')
-                     FROM marques as m inner JOIN produit_marque as pm ON m.id = pm.marque  
-                     WHERE pm.produit = p.id ) AS marques
-        
-        
-        from produits as p 
-        inner join produit_marque as pm on pm.produit = p.id 
-        inner join marques as m on m.id = pm.marque 
-        inner join produit_categorie as pc on pc.categorie = p.id 
-        inner join categories as c on c.id = pc.categorie 
-        inner join produit_genre as pg on pg.genre = p.id 
-        inner join genre as g on g.id = pg.genre 
-        where m.id = :idmarques
-        group by p.id";
+        $sql = "SELECT * 
+        FROM produits p, produit_marque pm
+        WHERE p.id = pm.produit
+        AND pm.marque=:idmarque;";
         
         $requete = $basedonne->prepare($sql);
-        $requete -> bindParam(':idmarques', $idmarques, PDO::PARAM_INT);
+        $requete -> bindParam(':idmarque', $id, PDO::PARAM_INT);
         $requete->execute();    
+
+        return $requete->fetchAll(PDO::FETCH_ASSOC);    
+    }
+
+    function getProductByGenre($id) {
+        
+        global $basedonne;
+
+        $sql = "SELECT * 
+        FROM produits p, produit_genre pg
+        WHERE p.id = pg.produit
+        AND pg.genre=:idgenre;";
+        
+        $requete = $basedonne->prepare($sql);
+        $requete -> bindParam(':idgenre', $id, PDO::PARAM_INT);
+        $requete->execute();    
+
         return $requete->fetchAll(PDO::FETCH_ASSOC);    
     }
