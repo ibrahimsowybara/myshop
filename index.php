@@ -21,6 +21,10 @@ switch ($controller) {
         require_once("controllers/categories_controller.php");
         break;
 
+        case 'contact':
+            require_once("controllers/contact_controller.php");
+            break;
+
     default:
         require_once("controllers/produits_controller.php");
         break;
